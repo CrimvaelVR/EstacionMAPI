@@ -1,0 +1,26 @@
+{
+  "name": "restapiesp",
+  "version": "1.0.0",
+  "description": "Rest Api para obtener mediciones",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "no"
+  },
+  "keywords": [
+    "Nodemon"
+  ],
+  "author": "Luis Monsalve, Maikel Villegas, José Escalona",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.1",
+    "mongoose": "^8.2.3"
+  }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mediciones ESP32</title>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+<h1>Mediciones del ESP32</h1>
+<table id="medicionesTable">
+  <tr>
+    <th>Fecha</th>
+    <th>Medición</th>
+    <!-- Añade más columnas según sea necesario -->
+  </tr>
+</table>
+
+<script>
+// Función para actualizar la tabla con los nuevos datos
+function actualizarTabla(datos) {
+  const tabla = document.getElementById('medicionesTable');
+  // Limpiar la tabla antes de añadir nuevos datos
+  tabla.innerHTML = `
+    <tr>
+      <th>Fecha</th>
+      <th>Medición</th>
+      <!-- Añade más columnas según sea necesario -->
+    </tr>
+  `;
+  // Añadir los datos a la tabla
+  datos.forEach(medicion => {
+    const fila = tabla.insertRow();
+    fila.insertCell().textContent = medicion.fecha;
+    fila.insertCell().textContent = medicion.valor;
+    // Añade más celdas según sea necesario
+  });
+}
+
+// Función para obtener los datos del servidor
+async function obtenerDatos() {
+  try {
+    const respuesta = await fetch('/mediciones');
+    const datos = await respuesta.json();
+    actualizarTabla(datos);
+  } catch (error) {
+    console.error('Error al obtener los datos:', error);
+  }
+}
+
+// Establecer intervalo para actualizar los datos cada 5 segundos
+setInterval(obtenerDatos, 5000);
+</script>
+</body>
+</html>
