@@ -1,12 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var cors = require('cors')
 const app = express();
 const port = 3000;
-const host = "192.168.0.139";
+const host = "192.168.0.109";
 
 // Middleware para parsear el cuerpo de las peticiones
 app.use(bodyParser.json());
+
+app.use(cors({
+  origin: 'http://192.168.0.109:4000', // Reemplaza con la URL de tu aplicación frontend
+  credentials: true
+}));
 
 // Conexión a MongoDB
 mongoose.connect('mongodb://127.0.0.1/EstacionM', {
@@ -21,9 +27,11 @@ db.once('open', function() {
 
 // Importar las rutas
 const Mediciones = require('./routes/Mediciones');
+const index = require('./routes/index');
 
 // Usar las rutas importadas
 app.use('/mediciones', Mediciones);
+app.use('/', index);
 
 // Iniciar el servidor
 app.listen(port,host, () => {
