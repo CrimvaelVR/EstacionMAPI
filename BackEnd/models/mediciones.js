@@ -10,6 +10,7 @@ const medicionesEsquema = new mongoose.Schema({
   humedad: Number,
   intensidad: Number,
   velocidad: Number,
+  direccion: String,
   fecha: String,
   hora: String
 });

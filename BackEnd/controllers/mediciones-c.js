@@ -1,5 +1,10 @@
 const Mediciones = require('../models/mediciones'); // Asegúrate de que la ruta al archivo sea correcta
 
+const ExcelJS = require('exceljs');
+
+var moment = require('moment-timezone');
+
+
 class medicionesController {
 
     consultarMedidiones = async (req, res) => { 
@@ -7,9 +12,6 @@ class medicionesController {
         try{
 
             const datos = await Mediciones.find()
-            
-            
-            console.log(datos[datos.length-1])
             res.json(datos[datos.length-1])
 
         } catch (error){
@@ -18,46 +20,78 @@ class medicionesController {
 
     }
 
+    exportarMediciones = async (req, res) => { 
+        try {
+          const workbook = new ExcelJS.Workbook();
+      
+          const sheet = workbook.addWorksheet('books');
+          sheet.columns = [
+            { header: 'Num', key: 'num', width: 10 },
+            { header: 'Temperatura', key: 'temperatura', width: 30 },
+            { header: 'Humedad', key: 'humedad', width: 30 },
+            { header: 'Intensidad', key: 'intensidad', width: 30 },
+            { header: 'Velocidad del Viento', key: 'velocidad', width: 30 },
+            { header: 'Direccion del Viento', key: 'direccion', width: 30 },
+            { header: 'Fecha', key: 'fecha', width: 30 },
+            { header: 'Hora', key: 'hora', width: 30 }
+          ];
+      
+          const datos = await Mediciones.find();
+          let data = JSON.parse(JSON.stringify(datos));
+      
+          data.forEach(value => {
+            sheet.addRow({
+              num: value.num,
+              temperatura: value.temperatura,
+              humedad: value.humedad,
+              intensidad: value.intensidad,
+              velocidad: value.velocidad,
+              direccion: value.direccion,
+              fecha: value.fecha,
+              hora: value.hora
+            });
+          });
+      
+          res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          );
+          res.setHeader(
+            'Content-Disposition',
+            'attachment;filename=' + 'DatosMeteorologicos.xlsx'
+          );
+      
+          await workbook.xlsx.write(res);
+      
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      };
+
+
     agregarMediciones = async (req, res) => {
         try {
-
             const datos = await Mediciones.find()
 
-            // Obtener la fecha actual
-            let fechaActual = new Date();
-
-            // Obtener los componentes individuales de la fecha
-            let dia = fechaActual.getDate();
-            let mes = fechaActual.getMonth() + 1; // Los meses se indexan desde 0, por lo que sumamos 1
-            let anio = fechaActual.getFullYear();
-
-            let hora = fechaActual.getHours();
-            let minutos = fechaActual.getMinutes();
-            let segundos = fechaActual.getSeconds();
-
-            hora = hora.toString().padStart(2, '0');
-            minutos = minutos.toString().padStart(2, '0');
-            segundos = segundos.toString().padStart(2, '0');
-            
             // Formatear la hora en una cadena (HH:mm:ss)
-            var horaFormateada = hora + ':' + minutos + ':' + segundos;
+            var horaFormateada = moment().tz("America/Caracas").format("hh:mm:ss a");
 
             // Formatear la fecha en una cadena personalizada (dd/mm/aaaa)
-            let fechaFormateada = dia + '/' + mes + '/' + anio;
+            let fechaFormateada = moment().tz("America/Caracas").format("DD/MM/YYYY");
 
             const medicion = new Mediciones({
-                num: datos.length + 1,
-                temperatura: req.body.temperatura,
-                humedad: req.body.humedad,
-                intensidad: req.body.intensidad,
-                velocidad: req.body.velocidad,
-                fecha: fechaFormateada,
-                hora: horaFormateada
-            });
+              num: datos.length + 1,
+              temperatura: parseFloat(req.body.temperatura).toFixed(2),
+              humedad: parseFloat(req.body.humedad).toFixed(2),
+              intensidad: req.body.intensidad,
+              velocidad: parseFloat(req.body.velocidad).toFixed(2),
+              direccion: req.body.direccion,
+              fecha: fechaFormateada,
+              hora: horaFormateada
+          });
 
             await medicion.save(); // Corrige aquí: usa medicion.save() en lugar de Mediciones.save()
             res.status(201).json(medicion);
-            console.log(medicion);
 
         } catch (error) {
             res.status(400).json({ message: error.message });

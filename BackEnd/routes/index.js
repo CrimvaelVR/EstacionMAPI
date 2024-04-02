@@ -6,4 +6,6 @@ const controller = require('../controllers/mediciones-c')
 
 router.get('/', controller.consultarMedidiones);
 
+router.get('/export', controller.exportarMediciones);
+
 module.exports = router;

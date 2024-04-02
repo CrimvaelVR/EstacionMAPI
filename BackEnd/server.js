@@ -1,22 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const dotenv = require("dotenv").config();
 var cors = require('cors')
 const app = express();
-const port = 3000;
-const host = "192.168.0.109";
+const port = 5000;
 
 // Middleware para parsear el cuerpo de las peticiones
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: 'http://192.168.0.109:4000', // Reemplaza con la URL de tu aplicación frontend
+  origin:  `${process.env.HOST_FRONT}:4000`, // Reemplaza con la URL de tu aplicación frontend
   credentials: true
 }));
 
 // Conexión a MongoDB
-mongoose.connect('mongodb://127.0.0.1/EstacionM', {
-});
+mongoose.connect(process.env.DATABASE, {});
 
 // Verificar conexión a la base de datos
 const db = mongoose.connection;
@@ -34,7 +33,7 @@ app.use('/mediciones', Mediciones);
 app.use('/', index);
 
 // Iniciar el servidor
-app.listen(port,host, () => {
+app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(`Host corriendo en ${host}`);
+  console.log(`Host corriendo en localhost`);
 });

@@ -18,6 +18,12 @@ export default {
 
     },
     extend: {
+      scale: {
+        '101': '1.005',
+      },
+      opacity: {
+        '60': '.60',
+      },
       display: ['group-focus'],
       opacity: ['group-focus'],
       inset: ['group-focus']
