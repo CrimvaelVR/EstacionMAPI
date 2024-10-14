@@ -8,26 +8,9 @@ const host = import.meta.env.VITE_HOST
 const WeatherCard = ({ data }) => {
   return (
     <div className="weather-card">
-  <div className="grid auto-rows-[192px] grid-cols-2 lg:grid-cols-3 gap-4 font-[Barlow]">
-    <div className="flex flex-col lg:flex-row items-center text-center lg:text-left justify-center gap-5 lg:gap-0 lg:justify-between row-span-1 col-span-1 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
-      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Temperatura:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.temperatura}°C</span></p>
-      {data.temperatura >= 20 ? (
-        <img className="w-12 h-12 lg:w-auto lg:h-auto" src="./public/Calor.png" alt="Calor" />
-      ) : (
-        <img className="w-12 h-12 lg:w-auto lg:h-auto" src="./public/Frio.png" alt="Frío" />
-      )}
-    </div>
-    <div className="flex flex-col lg:flex-row items-center text-center lg:text-left justify-center gap-5 lg:gap-0 lg:justify-between row-span-1 col-span-1 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
-      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Humedad:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.humedad}%</span></p>
-      <img className="w-12 h-12 lg:w-auto lg:h-auto"src="./public/Agua2.png" alt="Humedad" />
-    </div>
-    <div className="flex items-center justify-between row-span-1 col-span-2 lg:col-span-1 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
-      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Intensidad:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.intensidad}%</span></p>
-      <img className="w-12 h-12 lg:w-auto lg:h-auto"src="./public/Sol.png" alt="Intensidad Solar" />
-    </div>
-    <div className="flex items-center justify-between row-span-1 col-span-2 lg:col-span-2 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
-      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Velocidad del viento:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.velocidad}m/s</span></p>
-      <img className="w-12 h-12 lg:w-auto lg:h-auto"src="./public/viento.png" alt="Velocidad del Viento" />
+  <div className="grid auto-rows-[192px] grid-cols-2 lg:grid-cols2-3 gap-4 font-[Barlow]">
+    <div className="flex flex-col lg:flex-row items-center text-center lg:text-left justify-center gap-5 lg:gap-0 lg:justify-between row-span-2 col-span-1 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
+      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Peso:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.temperatura}</span></p>
     </div>
 
     <div className="flex flex-col row-span-2 col-span-2 lg:col-span-1 gap-10 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
@@ -42,11 +25,6 @@ const WeatherCard = ({ data }) => {
         <img className="w-12 h-12 lg:w-20 lg:h-20" src="./public/calendario.png" alt="Fecha y Hora" />
       </div>
 
-    </div>
-
-    <div className="flex items-center justify-between row-span-1 col-span-2 lg:col-span-2 rounded-xl bg-white bg-opacity-50 shadow-2xl p-4 dark:bg-neutral-900 hover:scale-101 hover:bg-opacity-60 hover:transition hover:ease-in-out">
-      <p className='text-base sm:text-2xl lg:text-4xl'> <strong>Dirección del viento:</strong> <span className='text-xl sm:text-3xl lg:text-4xl font-[system-ui] font-extrabold'>{data.direccion}</span></p>
-      <img className="w-12 h-12 lg:w-auto lg:h-auto" src="./public/brujula.png" alt="Dirección del Viento" />
     </div>
 
   </div>
@@ -124,10 +102,17 @@ const App = () => {
   return (
     <>
     <div className="container mx-auto p-4">
-      <h1 className="text-xl sm:text-3xl lg:text-6xl font-bold mb-10 text-center">Estación meteorológica</h1>
+      <h1 className="text-xl sm:text-3xl lg:text-6xl font-bold mb-10 text-center text-white">Balanza y Paletizado</h1>
       <WeatherCard data={data} />
     </div>
 
+      
+    </>
+  );
+};
+
+
+/*
     <div className="container mx-auto p-4 font-[system-ui]">
         <button
           type="button"
@@ -142,8 +127,5 @@ const App = () => {
           Descargar Excel de datos
         </button>
       </div>
-    </>
-  );
-};
-
+*/
 export default App;
